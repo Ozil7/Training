@@ -1,0 +1,16 @@
+<h1> Listing all skills </h1>
+
+<%= link_to 'Add new Skill', new_skill_path %>
+
+<ul>
+  <% @skills.each do |skill| %>
+      <li><%= skill.skill %></li>
+
+      <td><%= link_to 'Show', skill_path(skill) %></td>
+      <td><%= link_to 'Edit', edit_skill_path(skill) %></td>
+      <td><%= link_to 'Destroy', skill_path(skill),
+              method: :delete,
+              data: { confirm: 'Are you sure?' } %></td>
+
+  <% end %>
+</ul>

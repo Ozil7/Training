@@ -1,0 +1,2 @@
+class TeamLead < ApplicationRecord
+end
