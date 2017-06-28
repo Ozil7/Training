@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+	
+</head>
+<body>
+
+<form>
+	<label><b>Enter a number:</b></label>
+	<input type="number" name="number" id="inputNumber" value="" required="">
+
+	<input type="submit" name="submit" id="button1" value="Check">
+</form>
+
+
+<script type="text/javascript">
+	var check = document.getElementById("button1")
+	check.addEventListener("click", function(event){
+    event.preventDefault()
+    });
+    check.addEventListener("click", isPrime);
+    counter = 0;
+
+
+
+    function isPrime() { 
+    	var flag;
+    	var input = document.getElementById("inputNumber").value;
+		 if(input == "")
+			alert("This field cannot be left blank");
+
+		if (input != "")
+		{
+  		if ( isPrime.cache[ input ] != null ) 
+    	return isPrime.cache[ input ]; 
+
+  		var prime = input != 1; // Everything but 1 can be prime 
+  		for ( var i = 2; i < input; i++ ) { 
+    	if ( input % i == 0 ) { 
+    		flag = 0;
+      		break; 
+    	} 
+  	} 
+
+  	if (flag == 0)
+  	{
+  		prime = false;
+  		isPrime.cache[ input ] = prime ;
+  	}
+  	else
+  	{
+  		prime = true;
+  		isPrime.cache[ input ] = prime ;
+  	}
+
+  	document.getElementById("display").innerHTML = prime;
+  }
+  	
+} 
+
+isPrime.cache = {}; 
+
+
+
+ //    function checkPrime(input)
+ //    {
+ //    	divisibleCount = 0
+ //    	if (num == 1)
+ //    		return "yes"
+ //    	else if (num == 2)
+ //    		return "yes"
+ //    	else
+ //    	{
+ //    		for(var i=2; i < num/2; i++)
+ //    		{
+ //    			if (num%i == 0)
+ //    				divisibleCount +=1
+ //    		}
+ //    		if (divisibleCount == 0)
+ //    			return "yes"
+ //    		else
+ //    			return "no"
+ //    	}
+ //    }
+	
+
+	// function takeInput()
+	// {	
+	// 	var data, result, output;
+	// 	var input = document.getElementById("inputNumber").value;
+	// 	 if(input == "")
+	// 		alert("This field cannot be left blank");
+		
+	// 	if(input != "")
+	// 	{
+	// 		counter++
+	// 		if ((counter == 1) || JSON.parse(localStorage.getItem("input")) === null ){
+	// 			result = checkPrime(input);
+	// 			data = {input : result}
+	// 			localStorage.setItem("data", JSON.stringify(data));
+	// 			output = result
+	// 			document.getElementById("display").innerHTML = "Not from memory: " + output;
+
+	// 		}
+	// 		else
+	// 		{
+	// 			var retrievedObject = localStorage.getItem("input");
+	// 			output = JSON.parse(retrievedObject);
+	// 			document.getElementById("display").innerHTML = "From memory: " + output;
+
+	// 		}
+
+	// 	}
+
+	// }
+
+
+
+
+</script>
+
+<div id="display"></div>
+
+
+</body>
+</html>

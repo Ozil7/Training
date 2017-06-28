@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style type="text/css">
+		#dota {
+			height:50%;
+			color:red;
+		}
+
+		#abilitiesTable {
+			left:10%;
+		}
+
+		#herolist {
+			color: blue;
+		}
+	</style>
+</head>
+<body>
+	<h1 id="dota">DOTA</h1> <br>
+	<div>
+		<h1>Create Hero</h1>
+		<form>
+			<label> <b>Hero Name:</b> </label>
+			<input type="text" name="heroName" id="heroName" value="" required> &nbsp &nbsp
+			<label> <b>Type:</b> </label> 
+			<select type="text" name="heroType" id="heroType" value="" required>  
+  				<option value="">Strength</option>
+  				<option value="">Intelligence</option>
+  				<option value="">Agility</option>
+  				
+			</select>
+			&nbsp &nbsp <label> <b>Base Mana:</b> </label>
+			<input type="number" name="baseMana" id="baseMana" value="" required> &nbsp &nbsp
+			<input type="submit" name="submit" id="createHero" value="Create">
+
+			<br> <br>
+			<label> <b>Select Abilities</b> </label>
+
+			<div id="abilityCheckBoxes"></div>
+		
+
+	<div>
+		<br><br>
+        <h1>Abilities</h1>
+        	<form>
+				<label><b>Enter a Ability:</b></label> 
+				<input type="text" name="ability" id="inputAbility" value="" required="">&nbsp &nbsp
+				<label><b>Mana Cost:</b></label> 
+				<input type="number" name="manaCost" id="manaCost" value="" required="">&nbsp &nbsp
+				<label><b>Cooldown:</b></label> 
+				<input type="number" name="CoolDown" id="CoolDown" value="" required="">&nbsp &nbsp
+
+				<input type="submit" name="submit" id="addButton" value="Add ability"> <br> <br>	
+				</form>
+
+				</form>
+		<br><br>
+		<!-- <table id="abilitiesTable">
+          <tr>
+            <th>Abilities List </th>
+          </tr>
+        </table>	
+	</div>
+         -->
+    </div>
+
+    <h1 id="herolist">These are your Heroes</h1>
+    <div id="heroeslist">
+    	
+    </div>
+
+    <div id="display"></div>
+
+
+    <script type="text/javascript">
+    	
+
+    	rowNum = 1;
+    	addAbilityRowNumber= 0;
+    	var abilities = new Array;
+    	
+    	var heroes = new Array;
+    	var abilityDetails = new Array;
+    	// var name, type, baseMana;
+
+
+    	var add = document.getElementById("addButton")
+    	add.addEventListener("click", function(event){
+    		event.preventDefault()
+    	});
+    	add.addEventListener("click", addAbility)
+
+
+    	var create = document.getElementById("createHero")
+    	create.addEventListener("click", function(event){
+    		event.preventDefault()
+    	});
+    	create.addEventListener("click", createHeroes)
+
+    	function abilityDetail(name, manaCost, coolDown)
+    	{
+    		this.name = name
+    		this.manaCost = manaCost
+    		this.coolDown = coolDown
+    	}
+
+
+    	function hero(name, type, baseMana, heroAbilities)
+    	{
+    		this.name = name
+    		this.type = type
+    		this.baseMana = baseMana
+    		this.heroAbilities = heroAbilities
+    	}
+
+
+    	function createHeroes()
+    	{
+    		 var heroAbilities = new Array;
+    		 var totalManaCost = 0;
+    		 var CoolDownCount = 0;
+    		 var name = document.getElementById("heroName").value
+    		 var e = document.getElementById("heroType")
+    		 var type = e.options[e.selectedIndex].text;
+    		 var baseMana = document.getElementById("baseMana").value
+    		 var maxManaPool = Number(baseMana) + 1000;
+			 
+			 var abilityName;
+			 var counter = 0;
+			 var chk_arr =  document.getElementsByName("checkBoxes");
+			 var chklength = chk_arr.length; 
+			 
+
+
+				for(var k=0; k< chklength; k++)
+					{
+						if(chk_arr[k].checked == true)
+						{
+							counter += 1;
+
+							abilityName = document.getElementById("abilityLabel"+k).htmlFor
+							heroAbilities.push(abilityName)
+							totalManaCost += Number(abilityDetails[k].manaCost)
+							if (Number(abilityDetails[k].coolDown) > 0)
+								CoolDownCount += 1;
+
+						}
+					} 
+					// document.getElementById("display").innerHTML = counter;	
+					// debugger;
+					if(totalManaCost > maxManaPool || CoolDownCount < 2 || counter < 4) 
+						alert("Please fill again");
+					else
+						{
+							heroes.push(new hero(name, type, baseMana, heroAbilities));
+							var t1 = document.createTextNode("  Hero Name: "+name+"\n");
+        					document.body.appendChild(t1);
+        					var t2 = document.createTextNode("  Hero Type: "+type);
+        					document.body.appendChild(t2);
+        					var t3 = document.createTextNode("  Base Mana: "+baseMana);
+        					document.body.appendChild(t3);
+        					var t4 = document.createTextNode("  Abilities: "+heroAbilities);
+        					document.body.appendChild(t4);
+
+						}
+
+    	}
+
+
+    	function addAbility()
+    	{
+    		var abilityName = document.getElementById("inputAbility").value;
+    		var manaCost = document.getElementById("manaCost").value;
+    		var coolDown = document.getElementById("CoolDown").value;
+    		
+
+    		abilities.push(abilityName)
+    		abilityDetails.push(new abilityDetail(abilityName, manaCost, coolDown))
+
+    	// 	var table = document.getElementById("abilitiesTable");
+    	//  	var row = table.insertRow(rowNum);
+    	//  	row.id = rowNum;
+
+    	//  	var cell1 = row.insertCell(0);
+		  	
+		  	// cell1.innerHTML = abilityName;
+		  	// // cell2.appendChild(addBtn);
+
+		  	var checkbox = document.createElement('input');
+			checkbox.type = "checkbox";
+			checkbox.name = "checkBoxes";
+			checkbox.value = "value";
+			checkbox.id = "addAbilitybutton"+addAbilityRowNumber;
+
+			var label = document.createElement('label')
+			label.htmlFor = abilityName;
+			label.id = "abilityLabel"+addAbilityRowNumber;
+			label.appendChild(document.createTextNode(abilityName));
+
+			abilityCheckBoxes.appendChild(checkbox);
+			abilityCheckBoxes.appendChild(label);
+
+		  	rowNum += 1
+		  	addAbilityRowNumber += 1
+    	}
+    </script>
+
+    <div id="display"></div>
+
+</body>
+</html>
+
+
+
+<!-- // var cell2 = row.insertCell(1);
+
+		  	// var addBtn = document.createElement("button");
+		  	// addBtn.setAttribute("type", "button" );
+     //  		addBtn.setAttribute("id", "addAbilitybutton"+addAbilityRowNumber);
+
+		  	// var text = document.createTextNode("Assign");
+		  	// addBtn.appendChild(text);
+
+		  	// addBtn.addEventListener("click", ) -->
