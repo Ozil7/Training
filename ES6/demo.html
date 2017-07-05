@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<script type="text/javascript">
+	var fs  = require('fs');
+var obj = {
+    "europe": {
+        "poland": {},
+        "france": {},
+        "spain": {},
+        "greece": {},
+        "UK": {},
+        "germany": "txt"
+    },
+    "Asia": {
+        "india": "xml"
+    },
+    "Africa": null
+};
+
+(function create(folder, o) {
+    for (var key in o) {
+        if ( typeof o[key] === 'object' && o[key] !== null) {
+            fs.mkdir(folder + key, function() {
+                if (Object.keys(o[key]).length) {
+                    create(folder + key + '/', o[key]);
+                }
+            });
+        } else {
+            fs.writeFile(folder + key + (o[key] === null ? '' : '.' + o[key]));
+        }
+    }
+})('/', obj);
+</script>
+
+</body>
+</html>
