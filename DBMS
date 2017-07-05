@@ -1,0 +1,23 @@
+
+4.SELECT id,item_name,price FROM itemsNew WHERE price>40000;
+5.SELECT id,item_name,price FROM itemsNew WHERE (price>13000) AND (price<50000);
+6.SELECT id,item_name,price FROM itemsNew WHERE price<12000;
+7.
+8.SELECT name FROM CustomersNew GROUP BY name HAVING (COUNT(name)>1);
+9.SELECT item_name FROM ItemsNew ORDER BY price ASC LIMIT 5;
+10.SELECT * FROM CustomersNew WHERE Name LIKE 'ra%' AND Name LIKE 'ph%';
+11.SELECT NAME FROM CUSTOMERSNEW WHERE ADDRESS NOT LIKE 'Hyd';
+12.SELECT COUNT(ITEM_NAME) FROM ITEMSNEW;
+13.SELECT SUM(PRICE) FROM ITEMSNEW;
+14.SELECT AVG(PRICE) FROM ITEMSNEW; or SELECT SUM(PRICE)/COUNT(ITEM_NAME) FROM ITEMSNEW;
+
+
+
+
+
+
+SELECT Start_Date, MIN(End_Date)
+FROM  (SELECT Start_Date FROM Projects WHERE Start_Date NOT IN (SELECT End_Date FROM Projects)) a, (SELECT end_date FROM PROJECTS WHERE end_date NOT IN (SELECT start_date FROM PROJECTS)) b
+where start_date < end_date
+GROUP BY start_date
+ORDER BY (start_date - MIN(end_date)) DESC, start_date;
