@@ -1,8 +1,6 @@
 
 	var f = document.createElement("form");
 	f.setAttribute('id',"form1");
-// f.setAttribute('method',"post");
-// f.setAttribute('action',"submit.php");
 
 
 var i = document.createElement("input"); //input element, text
@@ -64,6 +62,8 @@ function generateTable()
     tbl.setAttribute("id", "myTable")
     tbl.style.width = '100%';
     tbl.style.height = '100px';
+    tbl.setAttribute('border-collapse', 'separate');
+    tbl.setAttribute('empty-cells', 'hide');
     tbl.setAttribute('border', '1');
     var tbdy = document.createElement('tbody');
     for (var i = 0; i < row; i++) {
@@ -71,29 +71,59 @@ function generateTable()
         tr.setAttribute("id", "myrow"+i );
         for (var j = 0; j < col; j++) {
                 
-                var td = document.createElement('td');
-                td.setAttribute("id", "myTd");
-                var num = i*col + j+1;
-                td.setAttribute("id", "mycell"+num);
-                td.appendChild(document.createTextNode("mycell"+num));
-                tr.appendChild(td);
-                
-               if (j == colSpan)
-                    if( i >= (rowSpan1-1) && i <= rowSpan2)
-                    {
-                        td.parentNode.removeChild(td);
-                        // td.setAttribute("rowspan", (rowSpan2 - rowSpan1 + 1));
-                    }
-
-                
+            var td = document.createElement('td');
+            td.setAttribute("id", "myTd");
+            var num = i*col + j+1;
+            td.setAttribute("id", "mycell"+num);
+            if (i >= 1 && i <=3 && j == 2)
+            {
+                j++;
+                j--;
+            }
+          else
+              td.appendChild(document.createTextNode("mycell"+num));
+          $("td:empty").remove();
+          tr.appendChild(td);
             
 
         }
+        
+        
         tbdy.appendChild(tr);
+
     }
     tbl.appendChild(tbdy);
     body.appendChild(tbl);
 
+     $('myTable tr').each(function() {
+    var tr = this;
+    var counter = 0;
+
+    $('td', tr).each(function(index, value) {
+      var td = $(this);
+
+      if (td.text() == "") {
+        counter++;
+        td.remove();
+      }
+    });
+
+    if (counter !== 0) {
+      $('td:not(.colTime):first', tr)
+        .attr('colSpan', '' + parseInt(counter + 1,10) + '');
+    }
+  });
+
+  $('td.colspans').each(function(){
+    var td = $(this);
+    var colspans = [];
+
+    td.siblings().each(function() {
+      colspans.push(($(this).attr('colSpan')) == null ? 1 : $(this).attr('colSpan'));
+    });
+
+    td.text(colspans.join(','));
+  });
     
 }
 
@@ -115,3 +145,8 @@ function generateTable()
 // 	// }
 
 // }
+
+// var table = $("#myTable")[0];
+    // var cell = table.rows[3].cells[3]; // This is a DOM "TD" element
+    // cell.remove();
+    // var $cell = $(cell); // Now it's a jQuery object.

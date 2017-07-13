@@ -65,209 +65,40 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-throw new Error("Cannot find module \"jquery\"");
-
-
-const totalFilesFolderList = new Array();
-
-function list(name, parentNode) {
-	this.name = name;
-	this.parentNode = parentNode;
-	this.childNodes = new Array();
-	this.pathname = "";
-}
-
-const lists = new Array();
-lists.push(new list("Root", null));
-lists[0].pathname = "/Root";
-
-__WEBPACK_IMPORTED_MODULE_0_jquery___default.a("#folders_list").show('fast');
-__WEBPACK_IMPORTED_MODULE_0_jquery___default.a("#folders_list").append('<li>' + lists[0].name + '</li>');
-
-__WEBPACK_IMPORTED_MODULE_0_jquery___default.a("#folders_list li").click(function () {
-	currentNodeTxt = __WEBPACK_IMPORTED_MODULE_0_jquery___default.a(this).html();
-	for (let j = 0; j < lists.length; j++) {
-		if (lists[j].name === currentNodeTxt) currentNode = lists[j];
-	}
-	__WEBPACK_IMPORTED_MODULE_0_jquery___default.a("ul").empty();
-	__WEBPACK_IMPORTED_MODULE_0_jquery___default.a("#pathName").empty();
-
-	document.getElementById("pathName").innerHTML = currentNode.pathname;
-	for (let index = 0; index < currentNode.childNodes.length; index++) {
-		__WEBPACK_IMPORTED_MODULE_0_jquery___default.a("#folders_list").show('fast');
-		__WEBPACK_IMPORTED_MODULE_0_jquery___default.a("#folders_list").append('<li>' + currentNode.childNodes[index] + '</li>');
-	}
+const input = document.getElementById("submitButton");
+input.addEventListener("click", function (event) {
+  event.preventDefault();
 });
+input.addEventListener("click", takeInput);
 
-class Folder {
-	constructor(folderName) {
-		totalFilesFolderList.push(folderName);
-		lists.push(new list(folderName, currentNode));
-
-		for (let i = 0; i < lists.length; i++) {
-			if (lists[i].name == folderName) lists[i].pathname = lists[i].parentNode.pathname + "/" + folderName;
-		}
-
-		for (let i = 0; i < lists.length; i++) {
-			if (lists[i].name == currentNodeTxt) lists[i].childNodes.push(folderName);
-		}
-
-		updateList();
-		clickElement();
-	}
+function calculateSum(n) {
+  const number = n;
+  const numberOfDigits = number.length;
+  let i = 0;
+  let sum = 0;
+  let subNumber;
+  let subLength;
+  while (i < numberOfDigits) {
+    subNumber = "";
+    subLength = Number(number[i]);
+    let j = i + 1;
+    while (j <= i + subLength && j < numberOfDigits) {
+      subNumber = subNumber + number[j];
+      j += 1;
+    }
+    sum = sum + Number(subNumber);
+    if (j >= numberOfDigits) break;
+    i = j;
+  }
+  if (sum % 2 === 0) document.getElementById("display").innerHTML = "Even";else document.getElementById("display").innerHTML = "Odd";
 }
 
-class File {
-	constructor(fileName) {
-		totalFilesFolderList.push(fileName);
-		for (var i = 0; i < lists.length; i++) {
-			if (lists[i].name == currentNodeTxt) lists[i].childNodes.push(fileName);
-		}
-
-		updateList();
-		clickElement();
-	}
+function takeInput() {
+  const number = document.getElementById("inputNumber").value;
+  if (number.length === 1 || number === "") alert("Please enter a valid number");else calculateSum(number);
 }
-
-function clickSearchList() {
-	__WEBPACK_IMPORTED_MODULE_0_jquery___default.a("#search_list li").click(function () {
-		currentPathTxt = __WEBPACK_IMPORTED_MODULE_0_jquery___default.a(this).html();
-
-		for (let j = 0; j < lists.length; j++) {
-			if (lists[j].pathname == currentPathTxt) currentNode = lists[j].parentNode;
-		}
-
-		__WEBPACK_IMPORTED_MODULE_0_jquery___default.a("ul").empty();
-		__WEBPACK_IMPORTED_MODULE_0_jquery___default.a("#pathName").empty();
-
-		document.getElementById("pathName").innerHTML = currentNode.pathname;
-
-		for (var index = 0; index < currentNode.childNodes.length; index++) {
-			__WEBPACK_IMPORTED_MODULE_0_jquery___default.a("#folders_list").show('fast');
-			__WEBPACK_IMPORTED_MODULE_0_jquery___default.a("#folders_list").append('<li>' + currentNode.childNodes[index] + '</li>');
-		}
-	});
-	clickElement();
-}
-
-function updateList() {
-	__WEBPACK_IMPORTED_MODULE_0_jquery___default.a("ul").empty();
-	for (var index = 0; index < currentNode.childNodes.length; index++) {
-		__WEBPACK_IMPORTED_MODULE_0_jquery___default.a("#folders_list").show('fast');
-		__WEBPACK_IMPORTED_MODULE_0_jquery___default.a("#folders_list").append('<li>' + currentNode.childNodes[index] + '</li>');
-	}
-}
-
-function clickElement() {
-	__WEBPACK_IMPORTED_MODULE_0_jquery___default.a("#folders_list li").click(function () {
-		currentNodeTxt = __WEBPACK_IMPORTED_MODULE_0_jquery___default.a(this).html();
-
-		for (var j = 0; j < lists.length; j++) {
-			if (lists[j].name == currentNodeTxt) currentNode = lists[j];
-		}
-
-		__WEBPACK_IMPORTED_MODULE_0_jquery___default.a("ul").empty();
-		__WEBPACK_IMPORTED_MODULE_0_jquery___default.a("#pathName").empty();
-
-		document.getElementById("pathName").innerHTML = currentNode.pathname;
-
-		for (var index = 0; index < currentNode.childNodes.length; index++) {
-			__WEBPACK_IMPORTED_MODULE_0_jquery___default.a("#folders_list").show('fast');
-			__WEBPACK_IMPORTED_MODULE_0_jquery___default.a("#folders_list").append('<li>' + currentNode.childNodes[index] + '</li>');
-		}
-	});
-}
-
-function goBack() {
-	var node = currentNode;
-	__WEBPACK_IMPORTED_MODULE_0_jquery___default.a("ul").empty();
-
-	if (currentNode.name == "Root") {
-		__WEBPACK_IMPORTED_MODULE_0_jquery___default.a("#folders_list").show('fast');
-		__WEBPACK_IMPORTED_MODULE_0_jquery___default.a("#folders_list").append('<li>' + "Root" + '</li>');
-	} else {
-		currentNode = node.parentNode;
-		for (var index = 0; index < currentNode.childNodes.length; index++) {
-			__WEBPACK_IMPORTED_MODULE_0_jquery___default.a("#folders_list").show('fast');
-			__WEBPACK_IMPORTED_MODULE_0_jquery___default.a("#folders_list").append('<li>' + currentNode.childNodes[index] + '</li>');
-		}
-	}
-
-	clickElement();
-}
-
-function checkFileValidity(fileName, type) {
-	var flag = 0;
-	var regex = /^[a-z0-9]+$/;
-	debugger;
-	if (regex.test(fileName.toLowerCase()) && regex.test(type.toLowerCase())) flag = 1;else flag = 0;
-
-	for (var i = 0; i < totalFilesFolderList.length; i++) {
-		if (totalFilesFolderList[i] == fileName) flag = 0;
-	}
-	return flag;
-}
-
-function checkFolderValidity(folderName) {
-	var flag = 0;
-	var regex = /^[a-z0-9]+$/;
-	if (regex.test(folderName.toLowerCase())) flag = 1;else flag = 0;
-
-	for (var i = 0; i < totalFilesFolderList.length; i++) {
-		if (totalFilesFolderList[i] == folderName) flag = 0;
-	}
-	return flag;
-}
-
-function searchFile() {
-	var searchInput = document.getElementById("searchText").value;
-
-	for (var i = 0; i < lists.length; i++) {
-		if (lists[i].pathname.includes(searchInput)) {
-			__WEBPACK_IMPORTED_MODULE_0_jquery___default.a("#search_list").show('fast');
-			__WEBPACK_IMPORTED_MODULE_0_jquery___default.a("#search_list").append('<li>' + lists[i].pathname + '</li>');
-		}
-	}
-	clickSearchList();
-}
-
-function checkInput() {
-	var fname = document.getElementById("fname").value;
-	var check;
-
-	if (fname.split(".").length == 1) {
-		check = checkFolderValidity(fname);
-		if (check == 1) var obj = new Folder(fname);else alert("Please enter a valid name");
-	} else if (fname.split(".").length == 2) {
-		check = checkFileValidity(fname.split(".")[0], fname.split(".")[1]);
-		if (check == 1) var obj = new File(fname);else alert("Please enter a valid name");
-	} else alert("Please enter a valid name");
-}
-
-var create = document.getElementById("createButton");
-create.addEventListener("click", function (event) {
-	event.preventDefault();
-});
-
-create.addEventListener("click", checkInput);
-
-var back = document.getElementById("backButton");
-back.addEventListener("click", function (event) {
-	event.preventDefault();
-});
-
-back.addEventListener("click", goBack);
-
-var search = document.getElementById("searchButton");
-search.addEventListener("click", function (event) {
-	event.preventDefault();
-});
-
-search.addEventListener("click", searchFile);
 
 /***/ })
 /******/ ]);
